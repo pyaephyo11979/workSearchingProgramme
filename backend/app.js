@@ -4,6 +4,7 @@ const app=express();
 const mongoose=require('mongoose');
 const port=process.env.PORT || 5000;
 const user_router=require('./routes/userRoute');
+const post_router=require('./routes/postRoute')
 app.use((req,res,next)=>{
     res.setHeader('Access-Control-Allow-Origin','*');
     res.setHeader('Access-Control-Allow-Methods','*');
@@ -11,6 +12,7 @@ app.use((req,res,next)=>{
     next();
 })
 app.use('/api/user',user_router)
+app.use('/api/post',post_router)
 mongoose.connect(process.env.MONGO_URI)
 .then(()=>{
     app.listen(port,()=>{

@@ -91,11 +91,24 @@ const applyJob=async(req,res)=>{
         res.status(500).json({message:error.message});
     }
 }
+const getApplicants=async(req,res)=>{
+    try{
+        const {pid}=req.params
+        const post=await Post.findById(pid);
+        if(!post){
+            return res.status(400).json({message:"No post found"});
+        }
+        res.status(200).json({applicants:post.applicants});
+    }catch(error){
+        res.status(500).json({message:error.message});
+    }
+}
 module.exports={
     getPosts,
     getPost,
     createPost,
     updatePost,
     deletePost,
-    applyJob
+    applyJob,
+    getApplicants
 }

@@ -1,0 +1,15 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const user_router=express();
+user_router.use(bodyParser.json());
+user_router.use(bodyParser.urlencoded({ extended: true }));
+user_router.use(express.static('public'));
+const userController = require('../controllers/userController');
+user_router.post('/register',userController.register);
+user_router.post('/login',userController.login);
+user_router.get('/get',userController.getUsers);
+user_router.get('/get/:id',userController.getUser);
+user_router.patch('/update/:id',userController.updateUser);
+user_router.delete('/delete/:id',userController.deleteUser);
+user_router.patch('/updatePassword/:id',userController.changePassword);
+module.exports = user_router;

@@ -31,15 +31,15 @@ function RegisterForm() {
                     <Inputs
                         label="Employer"
                         value="employer"
-                        name="status"
+                        name="role"
                         id="employer"
                         type="radio"
                     />
                     <Inputs
-                        label="jobseeker"
+                        label="Jobseeker"
                         value="jobseeker"
                         id="jobseeker"
-                        name="status"
+                        name="role"
                         type="radio"
                     />
                 </div>

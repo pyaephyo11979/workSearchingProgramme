@@ -1,5 +1,12 @@
+import JobDetails from "../components/JobDetails";
+import Jobs from "../components/Jobs";
+
 function JobsPage() {
-    return <div>Jobs Page</div>;
+    return (
+        <div className="bg-zinc-900 min-h-screen">
+            <Jobs />
+        </div>
+    );
 }
 
 export default JobsPage;

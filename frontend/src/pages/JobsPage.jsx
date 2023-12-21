@@ -1,4 +1,4 @@
-import JobDetails from "../components/JobDetails";
+
 import Jobs from "../components/Jobs";
 
 function JobsPage() {

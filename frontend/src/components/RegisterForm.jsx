@@ -37,7 +37,7 @@ function RegisterForm() {
                     />
                     <Inputs
                         label="Jobseeker"
-                        value="jobseeker"
+                        value="user"
                         id="jobseeker"
                         name="role"
                         type="radio"

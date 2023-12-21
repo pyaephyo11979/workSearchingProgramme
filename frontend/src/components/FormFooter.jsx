@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function FormFooter({ label }) {
     return (
         <div className="flex justify-between md:justify-end items-center">
-            <button className="px-6 py-2 bg-emerald-600 rounded text-white">
+            <button  className="px-6 py-2 bg-emerald-600 rounded text-white">
                 {label}
             </button>
 

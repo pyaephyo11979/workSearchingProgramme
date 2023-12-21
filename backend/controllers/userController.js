@@ -27,7 +27,11 @@ const register = async (req, res) => {
         if(emptyFields.length>0){
             return res.status(400).json({error:'Please fill in all the fields',emptyFields})
         }
-        const user=new User({
+      const user=User.find({email:email})
+      if(user){
+        return res.status(400).json({error:"User already exists"})
+      }else{
+        const newUser=new User({
             name:req.body.name,
             email:req.body.email,
             password:hashedPassword,
@@ -35,11 +39,12 @@ const register = async (req, res) => {
             phone:req.body.phone,
             gender:req.body.gender
         })
-        await user.save();
-        if(!user){
+        await newUser.save();
+        if(!newUser){
             return res.status(400).json({message:"Something went wrong"})
         }
          res.status(200).json({message:"User created successfully"})
+      }
     } catch (error) {
         res.status(500).json({message:error.message})
     }

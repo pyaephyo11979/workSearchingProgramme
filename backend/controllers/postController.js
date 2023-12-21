@@ -1,5 +1,6 @@
 const Post=require('../models/postModel');
 const User=require('../models/userModel');
+const jwt=require('jsonwebtoken');
 const getPosts=async(req,res)=>{
     try{
         const posts=await Post.find();

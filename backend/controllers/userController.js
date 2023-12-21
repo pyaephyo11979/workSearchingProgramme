@@ -27,10 +27,8 @@ const register = async (req, res) => {
         if(emptyFields.length>0){
             return res.status(400).json({error:'Please fill in all the fields',emptyFields})
         }
-      const user=User.find({email:email})
-      if(user){
-        return res.status(400).json({error:"User already exists"})
-      }else{
+      const user=await User.findOne({email})
+      if(!user){
         const newUser=new User({
             name:req.body.name,
             email:req.body.email,
@@ -44,7 +42,10 @@ const register = async (req, res) => {
             return res.status(400).json({message:"Something went wrong"})
         }
          res.status(200).json({message:"User created successfully"})
+      }else{
+        return res.status(400).json({error:"User already exists"})
       }
+
     } catch (error) {
         res.status(500).json({message:error.message})
     }

@@ -1,3 +1,4 @@
+const jwt=require('jsonwebtoken');
 function onlyEmployer(req,res,next){
     const [type,token]= req.headers['authorization'].split(' ');
     jwt.verify(token,process.env.SECRET,(err,user)=>{

@@ -5,7 +5,7 @@ Register User   https://wspapi.onrender.com/api/user/register      method:post
 Update User     https://wspapi.onrender.com/api/user/update/:id      method:patch
 Delete User     https://wspapi.onrender.com/api/user/delete/:id      method:delete
 Login Gateway   https://wspapi.onrender.com/api/user/login      method:post
-Change Password https://wspapi.onrender.com/api/user/updatePassword/:id ethod:patch
+Change Password https://wspapi.onrender.com/api/user/updatePassword/:id method:patch
 
 Posts
 Get All Posts   https://wspapi.onrender.com/api/post/get      method:get

@@ -1,6 +1,16 @@
 const Post=require('../models/postModel');
 const User=require('../models/userModel');
 const jwt=require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const transporter=nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth:{
+        user:'pyaephyohlaing2kk3@gmail.com',
+        pass:'ccnf exvt xryi oydt',
+    }
+})
 const getPosts=async(req,res)=>{
     try{
         const posts=await Post.find();
@@ -78,6 +88,10 @@ const applyJob=async(req,res)=>{
         const {uid}=req.body;
         const user=await User.findById(uid);
         const post=await Post.findById(pid);
+        const posterID=post.postedBy.id;
+        const poster=await User.findById(posterID);
+        const posterEmail=poster.email;
+        const usermail=user.email
         if(!user){
             return res.status(400).json({message:"No user found"});
         }
@@ -87,6 +101,18 @@ const applyJob=async(req,res)=>{
         }
         post.applicants.push(applicant);
         await post.save();
+        const mail=await transporter.sendMail({
+            from:'pyaephyohlaing2kk3@gmail.com',
+            to:posterEmail,
+            subject:'New Applicant is Here',
+            text:'You have got a new applicant. Please check your dashboard for more details.'
+        })
+        const mail2=await transporter.sendMail({
+            from:'pyaephyohlaing2kk3@gmail.com',
+            to:usermail,
+            subject:'Appled successfully',
+            text:'You have applied successfully.We will contact you soon.'
+        })
         res.status(200).json({message:"Applied successfully"});
     } catch (error) {
         res.status(500).json({message:error.message});

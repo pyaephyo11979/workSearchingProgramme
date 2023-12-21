@@ -1,6 +1,7 @@
 const jwt=require('jsonwebtoken');
 function onlyEmployer(req,res,next){
     const [type,token]= req.headers['authorization'].split(' ');
+    if( type !== "Bearer") return res.sendStatus(401);
     jwt.verify(token,process.env.SECRET,(err,user)=>{
         if(user.role==="employer") next();
         else res.sendStatus(403);

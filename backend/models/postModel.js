@@ -5,6 +5,11 @@ const jobPostSchema =  mongoose.Schema({
         required: true,
         trim: true
     },
+    companyName:{
+        type: String,
+        required: true,
+        trim: true
+    },
     description: {
         type: String,
         required: true,
@@ -26,6 +31,10 @@ const jobPostSchema =  mongoose.Schema({
             required: true,
             ref: 'User'
         }
+    },
+    position:{
+        type: String,
+        required: true
     },
     applicants: [{
         id:{

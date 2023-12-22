@@ -43,8 +43,10 @@ const createPost=async(req,res)=>{
             const name=user.name;
             const post=new Post({
                 title:req.body.title,
+                companyName:req.body.companyName,
                 description:req.body.description,
                 requirements:req.body.requirements,
+                position:req.body.position,
                 postedBy:{
                     id:uid,
                     name:name

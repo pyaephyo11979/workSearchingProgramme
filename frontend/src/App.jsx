@@ -7,11 +7,17 @@ import RegisterPage from "./pages/RegisterPage";
 import JobDetails from "./components/JobDetails";
 import JobContextProvider from "./ctx/JobContext";
 
+import { registerAction, loginAction } from "./utils/actions";
+import { checkAuthUser } from "./utils/loaders";
+
 function App() {
     const router = createBrowserRouter([
         {
             path: "/",
+            loader: checkAuthUser,
+            id: "root",
             element: <AppLayout />,
+
             children: [
                 { index: true, element: <HomePage /> },
                 {
@@ -23,8 +29,16 @@ function App() {
                     ),
                 },
                 { path: "jobs/:id", element: <JobDetails /> },
-                { path: "register", element: <RegisterPage /> },
-                { path: "login", element: <LoginPage /> },
+                {
+                    path: "register",
+                    element: <RegisterPage />,
+                    action: registerAction,
+                },
+                {
+                    path: "login",
+                    element: <LoginPage />,
+                    action: loginAction,
+                },
             ],
         },
     ]);

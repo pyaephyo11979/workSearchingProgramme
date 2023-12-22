@@ -87,7 +87,8 @@ export async function createJobAction({ request }) {
     const jobData = {
         ...formData,
         postedBy: {
-            name: user.username,
+            id: user._id,
+            name: user.name,
         },
     };
 
@@ -97,11 +98,11 @@ export async function createJobAction({ request }) {
             method: request.method,
             headers: {
                 "Content-Type": "Application/json",
-                Authorization: `Bearer ${JSON.parse(
+                'authorization': `Bearer ${JSON.parse(
                     localStorage.getItem("token")
                 )}`,
             },
-            body: JSON.stringify(formData),
+            body: JSON.stringify(jobData),
         }
     );
 

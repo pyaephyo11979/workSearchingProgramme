@@ -9,7 +9,7 @@ function AppLayout() {
 
     return (
         <>
-            <header>
+            <header className="bg-black p-4 text-stone-300">
                 <Navbar />
             </header>
 

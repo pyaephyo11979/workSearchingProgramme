@@ -7,8 +7,10 @@ import RegisterPage from "./pages/RegisterPage";
 import JobDetails from "./components/JobDetails";
 import JobContextProvider from "./ctx/JobContext";
 
-import { registerAction, loginAction } from "./utils/actions";
+import { registerAction, loginAction, createJobAction } from "./utils/actions";
 import { checkAuthUser } from "./utils/loaders";
+import ProfilePage from "./pages/ProfilePage";
+import CreateJobPage from "./pages/CreateJobPage";
 
 function App() {
     const router = createBrowserRouter([
@@ -28,6 +30,11 @@ function App() {
                         </JobContextProvider>
                     ),
                 },
+                {
+                    path: "createjob",
+                    element: <CreateJobPage />,
+                    action: createJobAction,
+                },
                 { path: "jobs/:id", element: <JobDetails /> },
                 {
                     path: "register",
@@ -39,6 +46,7 @@ function App() {
                     element: <LoginPage />,
                     action: loginAction,
                 },
+                { path: "profile", element: <ProfilePage /> },
             ],
         },
     ]);

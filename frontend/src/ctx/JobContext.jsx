@@ -12,10 +12,13 @@ function JobContextProvider({ children }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("/data.json");
+                const response = await fetch(
+                    "https://wspapi.onrender.com/api/post/get"
+                );
                 const result = await response.json();
 
-                setData(result);
+                console.log(result.posts);
+                setData(result.posts);
             } catch (error) {
                 setError("Error fetching data:");
             } finally {

@@ -1,11 +1,14 @@
 import JobCard from "./JobCard";
 import { useJob } from "../ctx/JobContext";
+import SpinnerFullPage from "../pages/SpinnerFullPage";
 
 function Jobs() {
     const { data, isLoading, error } = useJob();
 
+    console.log(data);
+
     if (isLoading) {
-        return <h1>Loading...</h1>;
+        return <SpinnerFullPage />;
     }
 
     if (error) {
@@ -15,7 +18,7 @@ function Jobs() {
     return (
         <div className=" text-stone-300 flex flex-col gap-10 p-10">
             {data.map((job) => (
-                <JobCard key={job.id} data={job} />
+                <JobCard key={job._id} data={job} />
             ))}
         </div>
     );

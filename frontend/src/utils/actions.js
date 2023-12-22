@@ -76,3 +76,42 @@ export async function loginAction({ request }) {
 
     return redirect("/jobs");
 }
+
+export async function createJobAction({ request }) {
+    const data = await request.formData();
+    const formData = Object.fromEntries(data);
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log(user);
+
+    // need to fix.
+    const jobData = {
+        ...formData,
+        postedBy: {
+            name: user.username,
+        },
+    };
+
+    const response = await fetch(
+        "https://wspapi.onrender.com/api/post/create",
+        {
+            method: request.method,
+            headers: {
+                "Content-Type": "Application/json",
+                Authorization: `Bearer ${JSON.parse(
+                    localStorage.getItem("token")
+                )}`,
+            },
+            body: JSON.stringify(formData),
+        }
+    );
+
+    console.log(response);
+
+    if (!response.ok) {
+        const error = await response.json();
+        console.log(error);
+        return error;
+    }
+
+    return redirect("/jobs");
+}

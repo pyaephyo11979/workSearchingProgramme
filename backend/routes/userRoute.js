@@ -12,4 +12,5 @@ user_router.get('/get/:id',userController.getUser);
 user_router.patch('/update/:id',userController.updateUser);
 user_router.delete('/delete/:id',userController.deleteUser);
 user_router.patch('/updatePassword/:id',userController.changePassword);
+user_router.patch('/updateProfile/:id',userController.updateImage);
 module.exports = user_router;

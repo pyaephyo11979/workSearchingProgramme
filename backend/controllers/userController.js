@@ -35,7 +35,7 @@ const register = async (req, res) => {
             password:hashedPassword,
             role:req.body.role,
             phone:req.body.phone,
-            gender:req.body.gender
+            gender:req.body.gender,
         })
         await newUser.save();
         if(!newUser){
@@ -139,6 +139,20 @@ const deleteUser=async(req,res)=>{
         res.status(500).json({message:error.message})
     }
 }
+const updateImage=async(req,res)=>{
+    try {
+        const {id}=req.params
+        const user=await User.findById(id);
+        if(!user){
+            return res.status(400).json({message:"User not found"})
+        }
+        user.image=req.body.image
+        await user.save();
+        res.status(200).json({message:"Image updated successfully"})
+    } catch (error) {
+        res.status(500).json({message:error.message})
+    }
+}
 module.exports = {
     register,
     login,
@@ -146,5 +160,6 @@ module.exports = {
     getUser,
     updateUser,
     changePassword,
-    deleteUser
+    deleteUser,
+    updateImage
 }

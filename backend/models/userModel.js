@@ -31,5 +31,9 @@ const userSchema=mongoose.Schema({
         type:String,
         required:true
     },
+    image:{
+        type:String,
+        default:'https://drive.google.com/uc?export=view&id=1aXuLbzaVEu5nJ3QUxccOBcAahhLMK_fB'
+    }
 },{timestamp:true})
 module.exports=mongoose.model('User',userSchema)

@@ -55,7 +55,7 @@ function Navbar() {
                                     to="/profile"
                                     className="hover:text-amber-500"
                                 >
-                                    View Profile
+                                    {userData.name}
                                 </Link>
                                 {userData.role === "user" ? (
                                     <Link className="hover:text-amber-500">

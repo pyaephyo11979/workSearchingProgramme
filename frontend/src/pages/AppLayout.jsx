@@ -5,8 +5,7 @@ import SpinnerFullPage from "./SpinnerFullPage";
 
 function AppLayout() {
     const navigation = useNavigation();
-    console.log(navigation);
-
+  
     return (
         <>
             <header className="bg-black p-4 text-stone-300">

@@ -1,16 +1,19 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import AppLayout from "./pages/AppLayout";
 import HomePage from "./pages/HomePage";
 import JobsPage from "./pages/JobsPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import JobDetails from "./components/JobDetails";
+import ProfilePage from "./pages/ProfilePage";
+import CreateJobPage from "./pages/CreateJobPage";
+import JobDetailsPage from "./pages/JobDetailsPage";
+
 import JobContextProvider from "./ctx/JobContext";
+import JobDetailsProvider from "./ctx/JobDetailsContext";
 
 import { registerAction, loginAction, createJobAction } from "./utils/actions";
 import { checkAuthUser } from "./utils/loaders";
-import ProfilePage from "./pages/ProfilePage";
-import CreateJobPage from "./pages/CreateJobPage";
 
 function App() {
     const router = createBrowserRouter([
@@ -35,7 +38,7 @@ function App() {
                     element: <CreateJobPage />,
                     action: createJobAction,
                 },
-                { path: "jobs/:id", element: <JobDetails /> },
+                { path: "jobs/:id", element: <JobDetailsProvider><JobDetailsPage /></JobDetailsProvider>},
                 {
                     path: "register",
                     element: <RegisterPage />,

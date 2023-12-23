@@ -79,34 +79,33 @@ export async function loginAction({ request }) {
 
 export async function createJobAction({ request }) {
     const data = await request.formData();
-    const formData = Object.fromEntries(data);
+    
     const user = JSON.parse(localStorage.getItem("user"));
-    console.log(user);
-
+    
     // need to fix.
     const jobData = {
-        ...formData,
-        postedBy: {
-            id: user._id,
-            name: user.name,
-        },
+        title: data.get("title"),
+        companyName: data.get("company_name"),
+        requirements: data.get("requirements"),
+        position: data.get("position"),
+        // address: data.get("address"),
+        description: data.get("description"),
+        uid: user._id,
     };
-
+    
     const response = await fetch(
         "https://wspapi.onrender.com/api/post/create",
         {
             method: request.method,
             headers: {
                 "Content-Type": "Application/json",
-                'authorization': `Bearer ${JSON.parse(
+                "authorization": `Bearer ${JSON.parse(
                     localStorage.getItem("token")
                 )}`,
             },
             body: JSON.stringify(jobData),
         }
     );
-
-    console.log(response);
 
     if (!response.ok) {
         const error = await response.json();

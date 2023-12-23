@@ -6,7 +6,7 @@ function CreateJob() {
     return (
         <div className="min-h-screen w-full px-4 py-20 bg-zinc-900">
             <Form
-                method="POST"
+                method="post"
                 className="flex flex-col gap-5 m-auto bg-zinc-800 w-full md:w-[40rem] py-10 px-5 md:p-12 rounded"
             >
                 <CreateJobInputs

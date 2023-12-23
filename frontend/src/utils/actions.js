@@ -82,7 +82,6 @@ export async function createJobAction({ request }) {
     
     const user = JSON.parse(localStorage.getItem("user"));
     
-    // need to fix.
     const jobData = {
         title: data.get("title"),
         companyName: data.get("company_name"),

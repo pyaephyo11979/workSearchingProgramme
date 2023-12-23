@@ -1,11 +1,8 @@
+/* eslint-disable react/prop-types */
 import JobCard from "./JobCard";
-import { useJob } from "../ctx/JobContext";
 import SpinnerFullPage from "../pages/SpinnerFullPage";
 
-
-function Jobs() {
-    const { data, isLoading, error } = useJob();
-
+function Jobs({data, isLoading, error}) {
     if (isLoading) {
         return <SpinnerFullPage />;
     }

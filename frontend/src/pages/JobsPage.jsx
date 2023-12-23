@@ -33,6 +33,10 @@ function JobsPage() {
                 ? <Jobs data={filteredData} isLoading={isLoading} error={error} />
                 : <Jobs data={data} isLoading={isLoading} error={error} />
             }
+
+            {
+                !filteredData.length && <h1 className="text-stone-500 text-center">Job not Found...</h1>
+            }
         </div>
     );
 }

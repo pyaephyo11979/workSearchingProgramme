@@ -86,10 +86,7 @@ export async function createJobAction({ request }) {
     // need to fix.
     const jobData = {
         ...formData,
-        postedBy: {
-            id: user._id,
-            name: user.name,
-        },
+        uid:user._id
     };
 
     const response = await fetch(

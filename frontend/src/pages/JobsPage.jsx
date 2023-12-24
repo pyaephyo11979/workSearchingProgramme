@@ -7,12 +7,17 @@ function JobsPage() {
 
     const [searchValue, setSearchValue] = useState('');
     
-
     function handleSearchValueChange(event){
         setSearchValue(event.target.value)
     }
 
     const filteredData = data.filter(post => post.title.toLowerCase().includes(searchValue.toLowerCase()));
+
+    let jobNotFound;
+
+    if (!filteredData.length && !isLoading && !error ){
+        jobNotFound = <h1 className="text-stone-500 text-center">Job not Found...</h1>
+    }
 
     return (
 
@@ -35,7 +40,7 @@ function JobsPage() {
             }
 
             {
-                !filteredData.length && <h1 className="text-stone-500 text-center">Job not Found...</h1>
+                jobNotFound
             }
         </div>
     );

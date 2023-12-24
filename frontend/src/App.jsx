@@ -14,6 +14,7 @@ import JobDetailsProvider from "./ctx/JobDetailsContext";
 
 import { registerAction, loginAction, createJobAction } from "./utils/actions";
 import { checkAuthUser } from "./utils/loaders";
+import EditJobPage from "./pages/EditJobPage";
 
 function App() {
     const router = createBrowserRouter([
@@ -38,6 +39,7 @@ function App() {
                     element: <CreateJobPage />,
                     action: createJobAction,
                 },
+                { path: "jobs/:id/edit", element:<JobDetailsProvider><EditJobPage/></JobDetailsProvider>, action:createJobAction},
                 { path: "jobs/:id", element: <JobDetailsProvider><JobDetailsPage /></JobDetailsProvider>},
                 {
                     path: "register",

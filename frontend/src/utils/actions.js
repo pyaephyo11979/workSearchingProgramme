@@ -79,21 +79,40 @@ export async function loginAction({ request }) {
 
 export async function createJobAction({ request }) {
     const data = await request.formData();
-    
     const user = JSON.parse(localStorage.getItem("user"));
+
+    let url =  "https://wspapi.onrender.com/api/post/create";
+
+    const title = data.get("title");
+    const companyName = data.get("company_name");
+    const requirements = data.get("requirements");
+    const position = data.get("position");
+    const address = data.get("address");
+    const description = data.get("description");
+    const id = data.get("id")
     
+    console.log(request.method)
+
+    if (!title || !companyName || !requirements || !position || !description) {
+        throw json ({"message": "Please fill inputs."}, {status: 500})
+    }
+
     const jobData = {
-        title: data.get("title"),
-        companyName: data.get("company_name"),
-        requirements: data.get("requirements"),
-        position: data.get("position"),
-        // address: data.get("address"),
-        description: data.get("description"),
+        title,
+        companyName,
+        requirements,
+        position,
+        // address,
+        description,
         uid: user._id,
     };
     
+    if (request.method === "PATCH"){
+        url = `https://wspapi.onrender.com/api/post/update/${id}`
+    }
+
     const response = await fetch(
-        "https://wspapi.onrender.com/api/post/create",
+        url,
         {
             method: request.method,
             headers: {
@@ -108,7 +127,6 @@ export async function createJobAction({ request }) {
 
     if (!response.ok) {
         const error = await response.json();
-        console.log(error);
         return error;
     }
 

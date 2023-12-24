@@ -39,9 +39,7 @@ function JobsPage() {
                 : <Jobs data={data} isLoading={isLoading} error={error} />
             }
 
-            {
-                jobNotFound
-            }
+            { jobNotFound }
         </div>
     );
 }

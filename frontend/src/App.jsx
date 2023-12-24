@@ -8,13 +8,14 @@ import RegisterPage from "./pages/RegisterPage";
 import ProfilePage from "./pages/ProfilePage";
 import CreateJobPage from "./pages/CreateJobPage";
 import JobDetailsPage from "./pages/JobDetailsPage";
+import EditJobPage from "./pages/EditJobPage";
 
 import JobContextProvider from "./ctx/JobContext";
 import JobDetailsProvider from "./ctx/JobDetailsContext";
 
 import { registerAction, loginAction, createJobAction } from "./utils/actions";
-import { checkAuthUser } from "./utils/loaders";
-import EditJobPage from "./pages/EditJobPage";
+import { checkAuthUser, authProtectedLoader } from "./utils/loaders";
+import UserContextProvider from "./ctx/UserContext";
 
 function App() {
     const router = createBrowserRouter([
@@ -26,32 +27,20 @@ function App() {
 
             children: [
                 { index: true, element: <HomePage /> },
-                {
-                    path: "jobs",
-                    element: (
-                        <JobContextProvider>
-                            <JobsPage />
-                        </JobContextProvider>
-                    ),
-                },
-                {
-                    path: "createjob",
-                    element: <CreateJobPage />,
+                { path: "jobs", element:<JobContextProvider> <JobsPage /> </JobContextProvider> },
+                { path: "jobs/:id", element: <JobDetailsProvider><JobDetailsPage /></JobDetailsProvider> },
+                { 
+                    path: "jobs/:id/edit", 
+                    element: <JobDetailsProvider>
+                                <EditJobPage/>
+                             </JobDetailsProvider>, 
                     action: createJobAction,
+                    loader: authProtectedLoader,
                 },
-                { path: "jobs/:id/edit", element:<JobDetailsProvider><EditJobPage/></JobDetailsProvider>, action:createJobAction},
-                { path: "jobs/:id", element: <JobDetailsProvider><JobDetailsPage /></JobDetailsProvider>},
-                {
-                    path: "register",
-                    element: <RegisterPage />,
-                    action: registerAction,
-                },
-                {
-                    path: "login",
-                    element: <LoginPage />,
-                    action: loginAction,
-                },
-                { path: "profile", element: <ProfilePage /> },
+                { path: "createjob",element: <CreateJobPage />, action: createJobAction, loader: authProtectedLoader },
+                { path: "register", element: <RegisterPage />, action: registerAction },
+                { path: "login", element: <LoginPage />, action: loginAction },
+                { path: "profile/:id", element:<UserContextProvider> <ProfilePage /></UserContextProvider>, loader: authProtectedLoader },
             ],
         },
     ]);

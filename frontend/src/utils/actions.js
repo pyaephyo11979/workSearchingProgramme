@@ -87,10 +87,9 @@ export async function createJobAction({ request }) {
     const companyName = data.get("company_name");
     const requirements = data.get("requirements");
     const position = data.get("position");
-    const address = data.get("address");
+    // const address = data.get("address");
     const description = data.get("description");
     const id = data.get("id")
-    
     console.log(request.method)
 
     if (!title || !companyName || !requirements || !position || !description) {

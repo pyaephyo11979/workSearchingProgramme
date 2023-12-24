@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, useLoaderData } from "react-router-dom";
+import { Link, NavLink, useLoaderData, useNavigate } from "react-router-dom";
 
 function Navbar() {
     const user = useLoaderData("root");
 
     const [userData, setUserData] = useState(user);
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         setUserData(user);
@@ -14,6 +16,7 @@ function Navbar() {
     function logout() {
         localStorage.clear();
         setUserData(null);
+        navigate('/login')
     }
 
     useEffect(() => {
@@ -52,7 +55,7 @@ function Navbar() {
                         {isProfileMenuOpen && (
                             <ul className="absolute flex flex-col gap-3 p-10 text-sm bg-black -left-[50%] w-[10rem] md:-left-[20%]">
                                 <Link
-                                    to="/profile"
+                                    to={`/profile/${userData._id}`}
                                     className="hover:text-amber-500"
                                 >
                                     {userData.name}

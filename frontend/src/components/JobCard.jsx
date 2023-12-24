@@ -1,14 +1,27 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import { formatDate } from "../utils/formatDate";
+import { useEffect, useState } from "react";
 
-function JobCard({data}) {    
+function JobCard({data}) {        
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        async function getUser() {
+            const response = await fetch(` https://wspapi.onrender.com/api/user/get/${data.postedBy.id}`)
+            const userData = await response.json();
+
+            setUser(userData.user)
+        }
+        getUser()
+    }, [data.postedBy.id])
+
     return (
         <div className="p-10 flex flex-col gap-5 w-full bg-zinc-700 md:w-[25rem] rounded-md min-h-[30rem] flex-wrap">
 
             <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-black"></div>
-                <Link to="/profile" className="hover:text-blue-600">
+            {user && <img className="w-10 h-10 rounded-full" src={user.image}/>}
+                <Link to={`/profile/${data.postedBy.id}`} className="hover:text-blue-600">
                     {data.postedBy.name}
                 </Link>
             </div>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Jobs from "../components/Jobs";
 import { useJob } from "../ctx/JobContext";
+
 function JobsPage() {
     
     const { data, isLoading, error } = useJob();

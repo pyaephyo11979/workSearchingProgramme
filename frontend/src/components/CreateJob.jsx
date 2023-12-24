@@ -3,7 +3,7 @@ import { Form } from "react-router-dom";
 
 import CreateJobInputs from "./CreateJobInputs";
 
-function CreateJob({title, companyName, address, description, requirements, position, method, id}) {
+function CreateJob({post, method}) {
     
     return (
         <div className="min-h-screen w-full px-4 py-20 bg-zinc-900">
@@ -11,20 +11,20 @@ function CreateJob({title, companyName, address, description, requirements, posi
                 method={method ? method : "post"}
                 className="flex flex-col gap-5 m-auto bg-zinc-800 w-full md:w-[40rem] py-10 px-5 md:p-12 rounded"
             >
-                {id && <input type="hidden" value={id} name="id" />}
+                {post._id && <input type="hidden" value={post._id} name="id" />}
                 <CreateJobInputs
                     label="Title"
                     type="text"
                     id="title"
                     name="title"
-                    defaultValue={title ? title : ""}
+                    defaultValue={post.title ? post.title : ""}
                 />
                 <CreateJobInputs
                     label="Company Name"
                     type="text"
                     id="company_name"
                     name="company_name"
-                    defaultValue={companyName ? companyName : ""}
+                    defaultValue={post.companyName ? post.companyName : ""}
                 />
 
                 <CreateJobInputs
@@ -32,7 +32,7 @@ function CreateJob({title, companyName, address, description, requirements, posi
                     type="text"
                     id="address"
                     name="address"
-                    defaultValue={address ? address : ""}
+                    defaultValue={post.address ? post.address : ""}
                 />
 
                 <div className="w-full text-white">
@@ -41,7 +41,7 @@ function CreateJob({title, companyName, address, description, requirements, posi
                         cols="30"
                         id="description"
                         name="description"
-                        defaultValue={description ? description : ""}
+                        defaultValue={post.description ? post.description : ""}
                         className="h-[100px] md:h-[150px] px-5 py-2 border-none outline-none bg-slate-400 w-full mt-5 text-black"
                     ></textarea>
                 </div>
@@ -52,7 +52,7 @@ function CreateJob({title, companyName, address, description, requirements, posi
                         cols="30"
                         name="requirements"
                         id="requirements"
-                        defaultValue={requirements ? requirements : ""}
+                        defaultValue={post.requirements ? post.requirements : ""}
                         className="h-[100px] md:h-[200px] px-5 py-2 border-none outline-none bg-slate-400 w-full mt-5 text-black"
                     ></textarea>
                 </div>
@@ -64,7 +64,7 @@ function CreateJob({title, companyName, address, description, requirements, posi
                     <select
                         name="position"
                         id="position"
-                        defaultValue={position ? position : "internship"}
+                        defaultValue={post.position ? post.position : "internship"}
                         className="w-2/3 text-black bg-slate-400 p-2"
                     >
                         <option value="internship">Intership</option>

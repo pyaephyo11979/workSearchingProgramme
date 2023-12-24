@@ -10,8 +10,6 @@ function JobDetails() {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem("user"));
 
-    console.log(post)
-
     if (isLoading) {
         return <SpinnerFullPage/>
     }
@@ -57,11 +55,11 @@ function JobDetails() {
 
                     <div className="flex items-center gap-5">
                         <div className="w-9 h-9 rounded-full bg-black"></div>
-                        <Link to="/profile" className="hover:text-blue-500">{post.postedBy.name}</Link>
+                        <Link to={`/profile/${post.postedBy.id}`} className="hover:text-blue-500">{post.postedBy.name}</Link>
                     </div>
 
                     {
-                        post.postedBy.id === user._id &&
+                        post.postedBy.id === user?._id &&
                         <div className="flex gap-5">
                             <Link to={`/jobs/${post._id}/edit`}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 cursor-pointer hover:text-blue-400">
@@ -97,9 +95,10 @@ function JobDetails() {
 
                 <time className="text-sm text-stone-600 w-full">{formatDate(post.createdAt)}</time>
 
-                <div className="w-full">
+               { user &&  
+               <div className="w-full">
                     <button className="bg-blue-500 p-2 rounded-sm">Apply Now</button>
-                </div>
+                </div>}
 
             </div>
         </div>

@@ -17,7 +17,6 @@ function JobContextProvider({ children }) {
                 );
                 const result = await response.json();
 
-                console.log(result.posts);
                 setData(result.posts);
             } catch (error) {
                 setError("Error fetching data:");

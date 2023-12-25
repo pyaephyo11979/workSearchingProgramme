@@ -15,7 +15,6 @@ import JobDetailsProvider from "./ctx/JobDetailsContext";
 
 import { registerAction, loginAction, createJobAction } from "./utils/actions";
 import { checkAuthUser, authProtectedLoader } from "./utils/loaders";
-import UserContextProvider from "./ctx/UserContext";
 
 function App() {
     const router = createBrowserRouter([
@@ -40,7 +39,7 @@ function App() {
                 { path: "createjob",element: <CreateJobPage />, action: createJobAction, loader: authProtectedLoader },
                 { path: "register", element: <RegisterPage />, action: registerAction },
                 { path: "login", element: <LoginPage />, action: loginAction },
-                { path: "profile/:id", element:<UserContextProvider> <ProfilePage /></UserContextProvider>, loader: authProtectedLoader },
+                { path: "profile/:id", element:<JobContextProvider><ProfilePage /></JobContextProvider>, loader: authProtectedLoader },
             ],
         },
     ]);

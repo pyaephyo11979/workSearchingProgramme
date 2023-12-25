@@ -11,20 +11,20 @@ function CreateJob({post, method}) {
                 method={method ? method : "post"}
                 className="flex flex-col gap-5 m-auto bg-zinc-800 w-full md:w-[40rem] py-10 px-5 md:p-12 rounded"
             >
-                {post._id && <input type="hidden" value={post._id} name="id" />}
+                {post && <input type="hidden" value={post._id} name="id" />}
                 <CreateJobInputs
                     label="Title"
                     type="text"
                     id="title"
                     name="title"
-                    defaultValue={post.title ? post.title : ""}
+                    defaultValue={post ? post.title : ""}
                 />
                 <CreateJobInputs
                     label="Company Name"
                     type="text"
                     id="company_name"
                     name="company_name"
-                    defaultValue={post.companyName ? post.companyName : ""}
+                    defaultValue={post ? post.companyName : ""}
                 />
 
                 <CreateJobInputs
@@ -32,7 +32,7 @@ function CreateJob({post, method}) {
                     type="text"
                     id="address"
                     name="address"
-                    defaultValue={post.address ? post.address : ""}
+                    defaultValue={post ? post.address : ""}
                 />
 
                 <div className="w-full text-white">
@@ -41,7 +41,7 @@ function CreateJob({post, method}) {
                         cols="30"
                         id="description"
                         name="description"
-                        defaultValue={post.description ? post.description : ""}
+                        defaultValue={post ? post.description : ""}
                         className="h-[100px] md:h-[150px] px-5 py-2 border-none outline-none bg-slate-400 w-full mt-5 text-black"
                     ></textarea>
                 </div>
@@ -52,7 +52,7 @@ function CreateJob({post, method}) {
                         cols="30"
                         name="requirements"
                         id="requirements"
-                        defaultValue={post.requirements ? post.requirements : ""}
+                        defaultValue={post ? post.requirements : ""}
                         className="h-[100px] md:h-[200px] px-5 py-2 border-none outline-none bg-slate-400 w-full mt-5 text-black"
                     ></textarea>
                 </div>
@@ -64,7 +64,7 @@ function CreateJob({post, method}) {
                     <select
                         name="position"
                         id="position"
-                        defaultValue={post.position ? post.position : "internship"}
+                        defaultValue={post ? post.position : "internship"}
                         className="w-2/3 text-black bg-slate-400 p-2"
                     >
                         <option value="internship">Intership</option>

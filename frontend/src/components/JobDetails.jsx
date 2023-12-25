@@ -1,24 +1,20 @@
-import { useContext } from "react";
+import { useContext} from "react";
 import { JobDetailsContext } from "../ctx/JobDetailsContext";
 import SpinnerFullPage from "../pages/SpinnerFullPage";
 import { Link, useNavigate } from "react-router-dom";
 import { formatDate } from "../utils/formatDate";
+import useUser from "../store/useUser";
 
 // eslint-disable-next-line react/prop-types
 function JobDetails() {
     const {post, isLoading, error} = useContext(JobDetailsContext);
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem("user"));
+    const userId = post?.postedBy?.id 
+    const {userData, error: imageError, isLoading: imageLoading} = useUser(userId);
 
-    if (isLoading) {
-        return <SpinnerFullPage/>
-    }
-
-    if (error){
-        return <h1 className="text-red-500 p-10">{error}</h1>
-    }
-
-    const position = post.position === "internship" ? post.position : `${post.position}-level`
+    const userDetails = userData ? userData : null;
+   
 
     async function postDeleteHandler(){
         const proceed = window.confirm("Are you sure?")
@@ -47,6 +43,22 @@ function JobDetails() {
         }
     }
 
+    if (isLoading) {
+        return <SpinnerFullPage/>
+    }
+
+    if (error){
+        return <h1 className="text-red-500 p-10">{error}</h1>
+    }
+
+    const position = post.position === "internship" ? post.position : `${post.position}-level`;
+
+    let userImage;
+
+    if (!imageError && !imageLoading) {
+        userImage = <img className="w-9 h-9 rounded-full" src={userDetails?.image}/>;
+    }
+
     return (
         <div className="min-h-screen bg-zinc-900 py-10 px-5 font-sans">
             <div className="flex items-center flex-col gap-5 p-10 text-stone-100 bg-zinc-800 md:w-2/3 m-auto">
@@ -54,7 +66,7 @@ function JobDetails() {
                <div className="flex items-center gap-5 md:justify-between w-full">
 
                     <div className="flex items-center gap-5">
-                        <div className="w-9 h-9 rounded-full bg-black"></div>
+                     {userImage}
                         <Link to={`/profile/${post.postedBy.id}`} className="hover:text-blue-500">{post.postedBy.name}</Link>
                     </div>
 

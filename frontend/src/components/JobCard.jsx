@@ -1,32 +1,29 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import { formatDate } from "../utils/formatDate";
-import { useEffect, useState } from "react";
+import useUser from "../store/useUser";
 
 function JobCard({data}) {        
-    const [user, setUser] = useState(null);
+    const {userData, isLoading, error} = useUser(data.postedBy.id);
+    const user = userData ? userData : null;
 
-    useEffect(() => {
-        async function getUser() {
-            const response = await fetch(` https://wspapi.onrender.com/api/user/get/${data.postedBy.id}`)
-            const userData = await response.json();
+    let userImage;
 
-            setUser(userData.user)
-        }
-        getUser()
-    }, [data.postedBy.id])
+    if (!isLoading && !error) {
+        userImage = <img className="w-10 h-10 rounded-full" src={user?.image}/>;
+    }
 
     return (
         <div className="p-10 flex flex-col gap-5 w-full bg-zinc-700 md:w-[25rem] rounded-md min-h-[30rem] flex-wrap">
 
             <div className="flex items-center gap-3">
-            {user && <img className="w-10 h-10 rounded-full" src={user.image}/>}
+            {userImage }
                 <Link to={`/profile/${data.postedBy.id}`} className="hover:text-blue-600">
                     {data.postedBy.name}
                 </Link>
             </div>
 
-            <Link to={`${data._id}`} className="text-xl font-bold text-blue-500 hover:text-blue-400">
+            <Link to={`/jobs/${data._id}`} className="text-xl font-bold text-blue-500 hover:text-blue-400">
                 {data.title}
             </Link>
             

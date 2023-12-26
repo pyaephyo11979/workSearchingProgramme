@@ -43,6 +43,28 @@ function JobDetails() {
         }
     }
 
+    // need to fix.
+    async function jobApplyHandler(postId) {
+
+        const response = await fetch(`https://wspapi.onrender.com/api/post/apply/${postId}`, {
+            method: "PATCH",
+            headers: {
+                "Context-Type": "Application/json",
+                "authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+            },
+            body: JSON.stringify({uid: user._id, pid: postId})
+        });
+
+        if (!response.ok) {
+            const responseData = await response.json();
+            return responseData.error;
+        }
+
+        const responseData = await response.json();
+        navigate(`/jobs/${postId}`);
+        return responseData;
+    }
+
     if (isLoading) {
         return <SpinnerFullPage/>
     }
@@ -58,6 +80,24 @@ function JobDetails() {
     if (!imageError && !imageLoading) {
         userImage = <img className="w-9 h-9 rounded-full" src={userDetails?.image}/>;
     }
+
+    let apply;
+
+    if (user && user._id !== post.postedBy.id && user.role !== "employer" ){
+        apply = <div className="w-full">
+                    <button className="bg-blue-500 p-2 rounded-sm" onClick={() => jobApplyHandler(post._id)}>Apply Now</button>
+                    <button className="bg-gray-500 p-2 rounded-sm mx-2">Save</button>
+                </div>
+    }
+    
+  const alreadyApplied = post.applicants.filter(applicant => applicant.id === user._id);
+
+  if (alreadyApplied.length === 1 ) {
+    apply = <div className="w-full">
+                <button className="bg-blue-500 p-2 rounded-sm">Waiting for response</button>
+                <button className="bg-gray-500 p-2 rounded-sm mx-2">Save</button>
+            </div>
+  }
 
     return (
         <div className="min-h-screen bg-zinc-900 py-10 px-5 font-sans">
@@ -107,10 +147,7 @@ function JobDetails() {
 
                 <time className="text-sm text-stone-600 w-full">{formatDate(post.createdAt)}</time>
 
-               { user &&  
-               <div className="w-full">
-                    <button className="bg-blue-500 p-2 rounded-sm">Apply Now</button>
-                </div>}
+               { apply }
 
             </div>
         </div>

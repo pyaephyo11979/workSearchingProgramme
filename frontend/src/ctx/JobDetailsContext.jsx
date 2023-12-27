@@ -29,7 +29,7 @@ export default function JobDetailsProvider({children}){
         getPostDetail();
     }, [id])
  
-    return <JobDetailsContext.Provider value={{isLoading, post, error}}>{children}</JobDetailsContext.Provider>
+    return <JobDetailsContext.Provider value={{isLoading, setIsLoading, setError, post, error}}>{children}</JobDetailsContext.Provider>
 }
 
 

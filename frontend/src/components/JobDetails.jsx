@@ -1,4 +1,4 @@
-import { useContext} from "react";
+import { useContext, useEffect, useState } from "react";
 import { JobDetailsContext } from "../ctx/JobDetailsContext";
 import SpinnerFullPage from "../pages/SpinnerFullPage";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,15 +7,22 @@ import useUser from "../store/useUser";
 
 // eslint-disable-next-line react/prop-types
 function JobDetails() {
-    const {post, isLoading, error} = useContext(JobDetailsContext);
+    // get the post details from context.
+    const {post,setIsLoading, isLoading, error} = useContext(JobDetailsContext);
+    const [userAlreadyApplied, setUserAlreadyApplied] = useState(false);
+
+    // current url
     const navigate = useNavigate();
+
+    // current user.
     const user = JSON.parse(localStorage.getItem("user"));
-    const userId = post?.postedBy?.id 
+
+    // get the posted user's id to get the user's image from user model.
+    const userId = post?.postedBy?.id;
     const {userData, error: imageError, isLoading: imageLoading} = useUser(userId);
-
     const userDetails = userData ? userData : null;
-   
 
+    // POST delete handler.
     async function postDeleteHandler(){
         const proceed = window.confirm("Are you sure?")
 
@@ -39,79 +46,83 @@ function JobDetails() {
             } catch(error) {
                 console.log("Error during deletion", error)
             }
-
         }
     }
 
-    // need to fix.
+    // job apply handler.
     async function jobApplyHandler(postId) {
-
-        const response = await fetch(`https://wspapi.onrender.com/api/post/apply/${postId}`, {
-            method: "PATCH",
-            headers: {
-                "Context-Type": "Application/json",
-                "authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}`
-            },
-            body: JSON.stringify({uid: user._id, pid: postId})
-        });
-
-        if (!response.ok) {
+        setIsLoading(true);
+    
+        try {
+            const response = await fetch(`https://wspapi.onrender.com/api/post/apply/${postId}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+                },
+                body: JSON.stringify({ uid: user._id, pid: postId })
+            });
+    
+            if (!response.ok) {
+                const responseData = await response.json();
+                throw new Error(responseData.error);
+            }
+    
             const responseData = await response.json();
-            return responseData.error;
+            setUserAlreadyApplied(true);
+            navigate(`/jobs`)
+            return responseData;
+        } catch (error) {
+            console.error("Error during job application:", error);
+        } finally {
+            setIsLoading(false);
         }
-
-        const responseData = await response.json();
-        navigate(`/jobs/${postId}`);
-        return responseData;
     }
 
-    if (isLoading) {
-        return <SpinnerFullPage/>
-    }
+    useEffect(() => {
+        const applicants = post?.applicants.some(applicant => applicant.id == user?._id);
+        setUserAlreadyApplied(applicants);
+
+    }, [post, user])
+
+    let userImage;
 
     if (error){
         return <h1 className="text-red-500 p-10">{error}</h1>
     }
 
-    const position = post.position === "internship" ? post.position : `${post.position}-level`;
-
-    let userImage;
-
     if (!imageError && !imageLoading) {
         userImage = <img className="w-9 h-9 rounded-full" src={userDetails?.image}/>;
     }
 
-    let apply;
+    let applyButton;
 
-    if (user && user._id !== post.postedBy.id && user.role !== "employer" ){
-        apply = <div className="w-full">
-                    <button className="bg-blue-500 p-2 rounded-sm" onClick={() => jobApplyHandler(post._id)}>Apply Now</button>
-                    <button className="bg-gray-500 p-2 rounded-sm mx-2">Save</button>
-                </div>
+    // format the position letter.
+    const position = post?.position === "internship" ? post?.position : `${post?.position}-level`;
+
+    if (!userAlreadyApplied && user && user.role === "user" && user?._id !== post?.postedBy.id) {
+      applyButton =  <div className="w-full">
+            <button className="bg-blue-500 p-2 rounded-sm" onClick={() => jobApplyHandler(post?._id)}>Apply Now</button>
+        </div>
     }
-    
-  const alreadyApplied = post.applicants.filter(applicant => applicant.id === user._id);
-
-  if (alreadyApplied.length === 1 ) {
-    apply = <div className="w-full">
-                <button className="bg-blue-500 p-2 rounded-sm">Waiting for response</button>
-                <button className="bg-gray-500 p-2 rounded-sm mx-2">Save</button>
-            </div>
-  }
 
     return (
-        <div className="min-h-screen bg-zinc-900 py-10 px-5 font-sans">
+        <>
+        {
+            isLoading ? <SpinnerFullPage/> 
+            :
+            <div className="min-h-screen bg-zinc-900 py-10 px-5 font-sans">
             <div className="flex items-center flex-col gap-5 p-10 text-stone-100 bg-zinc-800 md:w-2/3 m-auto">
 
                <div className="flex items-center gap-5 md:justify-between w-full">
 
                     <div className="flex items-center gap-5">
                      {userImage}
-                        <Link to={`/profile/${post.postedBy.id}`} className="hover:text-blue-500">{post.postedBy.name}</Link>
+                        <Link to={`/profile/${post.postedBy?.id}`} className="hover:text-blue-500">{post.postedBy?.name}</Link>
                     </div>
 
                     {
-                        post.postedBy.id === user?._id &&
+                        post?.postedBy.id === user?._id &&
                         <div className="flex gap-5">
                             <Link to={`/jobs/${post._id}/edit`}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 cursor-pointer hover:text-blue-400">
@@ -146,14 +157,15 @@ function JobDetails() {
                 <span className=" w-full text-left">{post.applicants.length}<span className="text-green-600 text-sm ml-5 text-left">Applicants</span></span>
 
                 <time className="text-sm text-stone-600 w-full">{formatDate(post.createdAt)}</time>
-
-               { apply }
+                
+               {applyButton  }
 
             </div>
         </div>
+        }
+        </>
     )
     
-   
 }
 
 export default JobDetails;

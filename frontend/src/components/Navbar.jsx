@@ -60,18 +60,13 @@ function Navbar() {
                                 >
                                     {userData.name}
                                 </Link>
-                                {userData.role === "user" ? (
-                                    <Link className="hover:text-amber-500">
-                                        Saved Jobs
-                                    </Link>
-                                ) : (
-                                    <Link
+                                {   userData.role !== "user" && <Link
                                         to="/createjob"
                                         className="hover:text-amber-500"
                                     >
                                         Create Jobs
                                     </Link>
-                                )}
+                                }
                                 {userData && (
                                     <li className="hover:text-amber-500">
                                         <button onClick={logout}>Logout</button>

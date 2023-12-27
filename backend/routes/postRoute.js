@@ -13,4 +13,5 @@ post_router.patch('/update/:id',auth.onlyEmployer, postController.updatePost);
 post_router.delete('/delete/:id',auth.onlyEmployer, postController.deletePost);
 post_router.patch('/apply/:pid',auth.user, postController.applyJob);
 post_router.get('/getApplicants/:pid',auth.onlyEmployer, postController.getApplicants);
+post_router.patch('/save/:pid',auth.user,postController.saveWork);
 module.exports = post_router

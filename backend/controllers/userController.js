@@ -153,6 +153,22 @@ const updateImage=async(req,res)=>{
         res.status(500).json({message:error.message})
     }
 }
+const getSavedPosts=async(req,res)=>{
+    try {
+        const {uid}=req.params
+        const user=await User.findById(uid);
+        if(!user){
+            return res.status(400).json({message:"User not found"})
+        }
+        const savePosts=user.savedPosts;
+        if(savePosts.length<1){
+            return res.status(400).json({message:"No saved posts found"})
+        }
+        res.status(200).json({savePosts:savePosts})
+    } catch (error) {
+        res.status(500).json({message:error.message})
+    }
+}
 module.exports = {
     register,
     login,
@@ -161,5 +177,6 @@ module.exports = {
     updateUser,
     changePassword,
     deleteUser,
-    updateImage
+    updateImage,
+    getSavedPosts
 }

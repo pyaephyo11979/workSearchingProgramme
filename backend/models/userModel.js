@@ -34,6 +34,17 @@ const userSchema=mongoose.Schema({
     image:{
         type:String,
         default:'https://drive.google.com/uc?export=view&id=1aXuLbzaVEu5nJ3QUxccOBcAahhLMK_fB'
+    },
+    savedPosts:[{
+        postId:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'Post'
+        },
+        postBy:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'User'
+        }
     }
+    ]
 },{timestamp:true})
 module.exports=mongoose.model('User',userSchema)

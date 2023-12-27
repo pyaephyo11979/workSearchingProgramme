@@ -13,4 +13,5 @@ user_router.patch('/update/:id',userController.updateUser);
 user_router.delete('/delete/:id',userController.deleteUser);
 user_router.patch('/updatePassword/:id',userController.changePassword);
 user_router.patch('/updateProfile/:id',userController.updateImage);
+user_router.get('/savedPosts/:uid',userController.getSavedPosts);
 module.exports = user_router;

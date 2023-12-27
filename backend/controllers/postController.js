@@ -132,6 +132,29 @@ const getApplicants=async(req,res)=>{
         res.status(500).json({message:error.message});
     }
 }
+const saveWork=async(req,res)=>{
+    try{
+        const {pid}=req.params
+        const {uid}=req.body
+        const user=await User.findById(uid)
+        if(!user){
+          return  res.status(404).json({message:'User not found'})
+        }
+        const post=await Post.findById(pid)
+        if(!post){
+            return res.status(404).json({message:'post not found'})
+        }
+        const savepost={
+            postId:pid,
+            postBy:post.postedBy.id
+        }
+        user.savedPosts.push(savepost)
+        await user.save();
+        res.status(200).json({message:'Post saved successfully'})
+    }catch(error){
+        res.status(500).json({message:error.message})
+    }
+}
 module.exports={
     getPosts,
     getPost,
@@ -139,5 +162,6 @@ module.exports={
     updatePost,
     deletePost,
     applyJob,
-    getApplicants
+    getApplicants,
+    saveWork
 }

@@ -7,7 +7,7 @@ export default function ErrorPage() {
     // default errors
     let title = "Sorry, an unexpected error has occurred.";
     let message = "error";
-    console.log(error);
+ 
     if (error.status === 500) {
         message = error.data.message;
     }

@@ -32,7 +32,7 @@ function Navbar() {
 
     return (
         <nav className="flex justify-between p-5 items-center">
-            <div className="w-1/3 md:text-3xl text-blue-600 italic">CareerCraftHub</div>
+            <div className="w-1/3 md:text-3xl text-blue-600 italic"><Link to="/">CareerCraftHub</Link></div>
             <ul className="flex justify-around w-2/3">
                 
                 <li><NavLink to="/" className={activeHandler} end>Home</NavLink></li>

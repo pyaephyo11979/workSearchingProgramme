@@ -45,3 +45,4 @@ Feel free to explore and customize the app according to your requirements!
 ## Issues
 If you encounter any issues or have suggestions, please open an issue or submit a pull request.
 
+Happy coding!

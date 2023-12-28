@@ -33,6 +33,12 @@ Job listing and details view.
 Creating and editing job postings.
 Profile management (edit profile, change password).
 
+## Features
+User authentication (register, login, profile management).
+Job listing and details view.
+Creating and editing job postings.
+Profile management (edit profile, change password).
+
 ## Customization    
 Feel free to explore and customize the app according to your requirements!
 

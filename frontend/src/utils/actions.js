@@ -131,3 +131,71 @@ export async function createJobAction({ request }) {
 
     return redirect("/jobs");
 }
+
+export async function editProfileAction({request, params}) {
+    const id = params.id;
+    
+    const data = await request.formData();
+    const username = data.get("username");
+    const image = data.get("image");
+    const phone = data.get("phone");
+
+    if (!username) {
+        throw json({"message": "Please fill the inputs."}, {status: 500})
+    }
+
+    const updatedProfile = {
+        id,
+        name: username,
+        image,
+        phone,
+    }
+        const response = await fetch(`https://wspapi.onrender.com/api/user/update/${id}`, {
+            method: "PATCH",
+            headers: { 
+                "Content-Type": "Application/json",
+                "authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`
+            },
+            body: JSON.stringify(updatedProfile)
+        });
+
+        if (!response.ok) {
+            const responseData = await response.json();
+            console.log(responseData)
+        }
+    
+        return redirect(`/profile/${id}`);
+    }
+
+export async function changePasswordAction({request, params}) {
+    const id = params.id;
+    const data = await request.formData();
+
+    const oldPassword = data.get("oldPassword");
+    const newPassword = data.get("newPassword");
+
+    if (!oldPassword && !newPassword) {
+        throw json({"message": "Please fill the passwords"}, {status: 500});
+    }
+
+    const updatedPasssword = {
+        id,
+        oldPassword,
+        newPassword,
+    }
+
+    const changePasswordResponse = await fetch(`https://wspapi.onrender.com/api/user/updatePassword/${id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "Application/json",
+            "authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`
+        },
+        body: JSON.stringify(updatedPasssword)
+    });
+
+    if (!changePasswordResponse.ok) {
+        throw json({"message": "Incorrect password.Please try again"}, {status: 500})
+    }
+
+    return redirect(`/profile/${id}`);
+}

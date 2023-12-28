@@ -5,6 +5,7 @@ function Navbar() {
     const user = useLoaderData("root");
 
     const [userData, setUserData] = useState(user);
+    
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
     const navigate = useNavigate();

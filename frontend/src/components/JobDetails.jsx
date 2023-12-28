@@ -11,6 +11,7 @@
         const {id} = useParams();
         const {jobData, isLoading, error } = useJobDetails(id);
         const [applicants, setApplicants] = useState();
+        const [isApplying, setIsApplying] = useState(false);
         
         useEffect(() => {
             setApplicants(jobData?.applicants);
@@ -57,9 +58,7 @@
 
         // job apply handler.
             async function jobApplyHandler(postId) {
-                setApplicants(prev => ([...prev, {id: user._id,name: user.name, _id: postId}]))
-                console.log(applicants)
-            
+                setIsApplying(true)
                 try {
                     const response = await fetch(`https://wspapi.onrender.com/api/post/apply/${postId}`, {
                         method: "PATCH",
@@ -76,11 +75,15 @@
                     }
             
                     const responseData = await response.json();
-                
+                    setApplicants(prev => ([...prev, {id: user._id,name: user.name, _id: postId}]))
+                    setIsApplying(false)
+
                     return responseData;
                 } catch (error) {
                     console.error("Error during job application:", error);
-                } 
+                } finally {
+                    setIsApplying(false);
+                }
             }
 
         let userImage;
@@ -103,7 +106,10 @@
 
         if (!alreadyApply && user && user.role === "user" && user?._id !== jobData?.postedBy?.id) {
         applyButton =  <div className="w-full">
+                { isApplying ?   <button className="bg-blue-500 p-2 rounded-sm" disabled>Applying</button>
+                :
                 <button className="bg-blue-500 p-2 rounded-sm" onClick={() => jobApplyHandler(jobData._id)}>Apply Now</button>
+            }
             </div>
         }
 

@@ -22,7 +22,7 @@ function useJobDetails(postId) {
         getJobData();
     }, [postId])
 
-    return {jobData, isLoading, error}
+    return {jobData, isLoading, setIsLoading, error}
 }
 
 export default useJobDetails

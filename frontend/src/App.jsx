@@ -13,8 +13,10 @@ import EditJobPage from "./pages/EditJobPage";
 import JobContextProvider from "./ctx/JobContext";
 import JobDetailsProvider from "./ctx/JobDetailsContext";
 
-import { registerAction, loginAction, createJobAction } from "./utils/actions";
+import { registerAction, loginAction, createJobAction, editProfileAction, changePasswordAction } from "./utils/actions";
 import { checkAuthUser, authProtectedLoader } from "./utils/loaders";
+import EditProfilePage from "./pages/EditProfilePage";
+import ChangePasswordPage from "./pages/ChangePasswordPage";
 
 function App() {
     const router = createBrowserRouter([
@@ -40,6 +42,8 @@ function App() {
                 { path: "register", element: <RegisterPage />, action: registerAction },
                 { path: "login", element: <LoginPage />, action: loginAction },
                 { path: "profile/:id", element:<JobContextProvider><ProfilePage /></JobContextProvider>, loader: authProtectedLoader },
+                { path: "profile/:id/edit", element: <JobContextProvider><EditProfilePage/></JobContextProvider>, loader:authProtectedLoader, action: editProfileAction },
+                { path: "profile/:id/changePassword", element: <JobContextProvider><ChangePasswordPage/></JobContextProvider>, loader:authProtectedLoader, action: changePasswordAction }
             ],
         },
     ]);

@@ -18,8 +18,8 @@ function JobCard({data}) {
 
             <div className="flex items-center gap-3">
             {userImage }
-                <Link to={`/profile/${data.postedBy.id}`} className="hover:text-blue-600">
-                    {data.postedBy.name}
+                <Link to={`/profile/${userData?._id}`} className="hover:text-blue-600">
+                    {userData?.name}
                 </Link>
             </div>
 

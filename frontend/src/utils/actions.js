@@ -48,10 +48,16 @@ export async function registerAction({ request }) {
 
 export async function loginAction({ request }) {
     const data = await request.formData();
+    const email = data.get("email");
+    const password = data.get('password');
+
+    if (!email || !password) {
+        throw json({"message": "Please type email and password."}, {status: 500})
+    }
 
     const userData = {
-        email: data.get("email"),
-        password: data.get("password"),
+        email,
+        password,
     };
 
     const response = await fetch("https://wspapi.onrender.com/api/user/login", {
@@ -63,8 +69,7 @@ export async function loginAction({ request }) {
     });
 
     if (!response.ok) {
-        const { error } = await response.json();
-        return error;
+        throw json({"message": "Incorrect Password try again."}, {status: 500})
     }
 
     const responseData = await response.json();
@@ -134,13 +139,14 @@ export async function createJobAction({ request }) {
 
 export async function editProfileAction({request, params}) {
     const id = params.id;
+    const user = JSON.parse(localStorage.getItem('user'));
     
     const data = await request.formData();
     const username = data.get("username");
     const image = data.get("image");
     const phone = data.get("phone");
 
-    if (!username) {
+    if (!username || !image || !phone) {
         throw json({"message": "Please fill the inputs."}, {status: 500})
     }
 
@@ -163,6 +169,13 @@ export async function editProfileAction({request, params}) {
             const responseData = await response.json();
             console.log(responseData)
         }
+
+        const userData = {
+            ...user,
+            ...updatedProfile,
+        }
+
+        localStorage.setItem("user", JSON.stringify(userData))
     
         return redirect(`/profile/${id}`);
     }

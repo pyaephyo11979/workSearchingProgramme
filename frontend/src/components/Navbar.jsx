@@ -5,7 +5,6 @@ function Navbar() {
     const user = useLoaderData("root");
 
     const [userData, setUserData] = useState(user);
-    
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
     const navigate = useNavigate();
@@ -22,7 +21,7 @@ function Navbar() {
 
     useEffect(() => {
         document.addEventListener("click", function (event) {
-            if (event.target.innerHTML !== "Profile")
+            if (event.target.innerHTML !== "Account")
                 setIsProfileMenuOpen(false);
         });
     }, []);
@@ -35,10 +34,9 @@ function Navbar() {
         <nav className="flex justify-between p-5">
             <div className="w-1/3">Logo</div>
             <ul className="flex justify-around w-2/3">
-                <NavLink to="/" className={activeHandler}>
-                    <li>Home</li>
-                </NavLink>
-
+                
+                <li><NavLink to="/" className={activeHandler} end>Home</NavLink></li>
+               
                 <NavLink to="/jobs" className={activeHandler}>
                     <li>Jobs</li>
                 </NavLink>
@@ -50,7 +48,7 @@ function Navbar() {
                 ) : (
                     <div className="relative w-1/3">
                         <button onClick={() => setIsProfileMenuOpen((p) => !p)}>
-                            Profile
+                            Account
                         </button>
 
                         {isProfileMenuOpen && (
@@ -59,7 +57,7 @@ function Navbar() {
                                     to={`/profile/${userData._id}`}
                                     className="hover:text-amber-500"
                                 >
-                                    {userData.name}
+                                    view profile
                                 </Link>
                                 {   userData.role !== "user" && <Link
                                         to="/createjob"

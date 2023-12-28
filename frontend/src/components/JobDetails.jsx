@@ -27,7 +27,7 @@
         const {userData, error: imageError, isLoading: imageLoading} = useUser(userId);
         const userDetails = userData ? userData : null;
 
-        const alreadyApply = applicants?.some(applicant => applicant.id == user._id);
+        const alreadyApply = applicants?.some(applicant => applicant.id == user?._id);
 
         // POST delete handler.
         async function postDeleteHandler(){
@@ -66,7 +66,7 @@
                             "Content-Type": "application/json",
                             "authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                         },
-                        body: JSON.stringify({ uid: user._id, pid: postId })
+                        body: JSON.stringify({ uid: user._id, pid: postId, })
                     });
             
                     if (!response.ok) {
@@ -96,7 +96,7 @@
         }
 
         if (!imageError && !imageLoading) {
-            userImage = <img className="w-9 h-9 rounded-full" src={userDetails?.image}/>;
+            userImage = <img className="w-20 h-20 rounded-full" src={userDetails?.image}/>;
         }
 
         let applyButton;

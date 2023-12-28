@@ -17,6 +17,7 @@ import { registerAction, loginAction, createJobAction, editProfileAction, change
 import { checkAuthUser, authProtectedLoader } from "./utils/loaders";
 import EditProfilePage from "./pages/EditProfilePage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
+import ErrorPage from "./pages/ErrorPage";
 
 function App() {
     const router = createBrowserRouter([
@@ -25,6 +26,7 @@ function App() {
             loader: checkAuthUser,
             id: "root",
             element: <AppLayout />,
+            errorElement: <ErrorPage/>,
 
             children: [
                 { index: true, element: <HomePage /> },

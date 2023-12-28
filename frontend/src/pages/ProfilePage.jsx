@@ -39,7 +39,7 @@ function ProfilePage() {
             </div>
 
             { currentUser._id === userData._id &&  
-               ( <ul className="flex justify-between items-center w-1/2 md:justify-center md:gap-10 m-auto pt-10">
+               ( <ul className="flex justify-between items-center p-10 md:w-1/2 md:justify-center md:gap-10 m-auto pt-10">
                         <li className="bg-blue-500 p-2 rounded-md font-medium">
                             <Link to={`/profile/${currentUser._id}/edit`}>Edit profile</Link>
                         </li>
@@ -60,7 +60,7 @@ function ProfilePage() {
                     </div>
                     :
                     (<div>
-                        <h3 className="text-white text-center mt-10">Create Jobs</h3>
+                        <h3 className="text-white text-center mt-10">Created Jobs</h3>
                         <div className="flex gap-10 flex-wrap justify-center pt-10 text-white">
                         {userPosts.map(post => <JobCard key={post._id} data={post}/>)}
                         </div>

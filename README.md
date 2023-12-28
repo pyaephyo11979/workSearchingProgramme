@@ -2,6 +2,8 @@
 
 A React-based job portal app for browsing job listings, managing user profiles, and more.
 
+demo link -- https://careercarft.netlify.app/
+
 ## Table of Contents
 
 - [Installation](#installation)
